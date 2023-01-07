@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
+
+*{
+    font-family: 'Ubuntu', sans-serif;
+}
+
+a{
+    text-decoration: none;
+}
+
+.card h5{
+    line-height: 24px;
+    height: 48px;
+    overflow: hidden;
+}
+
+.card .description{
+    border-bottom: 1px solid black;
+}

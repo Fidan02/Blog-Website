@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./Assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./Assets/css/style.css">
+    <title>Blog | Home</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">BlogSpot</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/index.html">Main</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="./explorer.html">Explore</a>
+                </li>
+                <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    More
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                </ul>
+                </li>
+            </ul>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-danger" type="submit">Search</button>
+            </form>
+            </div>
+        </div>
+        </nav>
+
+    <section id="quote-weather">
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3 d-flex flex-column">
+                    <div>
+                        <div class="card h-100 rounded border border-dark">
+                            <div class="text-center">
+                                <h5 class="text-center m-4 border-bottom border-2 border-dark">Random Quote</h5>
+                            </div>
+                        <div class="card-body" id="quote">
+                            
+                        </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary justify-content-center" id="rdm_btn">
+                        Generate Quote
+                    </button>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
+                    <div id="weather">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section id="info">
+        <div class="container mb-5">
+            <div class="mt-4">
+                <h3>TOP Posts</h3>
+                <hr>
+            </div>
+            <div class="row" id="posts">
+                
+            </div>
+            <div class="text-center mt-4">
+                <a href="./explorer.html" class="btn btn-outline-dark">Explore!</a>
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                    <h2 class="text-light">BlogSpot</h2>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 d-md-flex justify-content-md-end">
+                    <ul class="nav">
+                        <li class="nav-item"><a class="text-light" href="index.html">Home</a></li>
+                        <li class="nav-item mx-4"><a class="text-light" href="explorer.html">Explore</a></li>
+                        <li class="nav-item"><a class="text-light" href="#">Soon</a></li>
+                    </ul>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 d-md-flex justify-content-md-end">
+                    <ul class="nav">
+                        <li class="nav-item"><a class="text-light" href="#">Facebook</a></li>
+                        <li class="nav-item ms-4"><a class="text-light" href="#">Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+
+        <script src="./Assets/js/bootstrap.bundle.min.js"></script>
+        <script src="/modules/weather.js"></script>
+
+        <script type="module">
+
+            import {getPosts, getTopPosts, getQuote} from './modules/Posts.js'
+
+            //Top Posts
+            const posts_div = document.getElementById('posts');
+            
+            getTopPosts(posts_div, {limit: null})
+
+            
+            //Quote 
+            const quote_div = document.getElementById('quote');
+            const btn = document.getElementById('rdm_btn')
+            
+            document.addEventListener('load', getQuote(quote_div))
+            btn.addEventListener('click', (e) => {
+                getQuote(quote_div)
+            })
+
+            //Weather
+
+
+        </script>
+</body>
+</html>
