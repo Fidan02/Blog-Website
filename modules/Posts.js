@@ -22,7 +22,7 @@ function composePostsHTML(postimet){
                                 <button class="btn btn-outline-primary" id="like_btn" >
                                     👍: ${postimet.posts[i].reactions}
                                 </button>
-                            </span>
+                        </span>
                     </div>
                 </div>
             </div>
