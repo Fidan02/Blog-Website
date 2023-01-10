@@ -45,24 +45,34 @@
         <div class="container mt-5">
             <div class="row">
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3 d-flex flex-column">
-                    <div>
                         <div class="card h-100 rounded border border-dark">
                             <div class="text-center">
-                                <h5 class="text-center m-4 border-bottom border-2 border-dark">Random Quote</h5>
+                                <h5 class="text-center m-3 border-bottom border-2 border-dark">Random Quote</h5>
                             </div>
                         <div class="card-body" id="quote">
                             
                         </div>
                         </div>
-                    </div>
                     <button class="btn btn-secondary justify-content-center" id="rdm_btn">
                         Generate Quote
                     </button>
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 mb-3">
                     <div id="weather">
-                        
+                        <div class="card rounded border border-dark">
+                            <div class="card-body">
+                                <h5 class="card-title text-center border-bottom border-2 border-dark">Weather</h5>
+                                <h4 class="city text-center">London</h4>
+                                <div class="temperature text-center">30°C</div>
+                                <div class="wind text-center">Wind Speed: 10 km/h</div>
+                                <div class="description text-center text-danger">Sunny</div>
+                            </div>
+                        </div>
                     </div>
+                    <form class="d-flex">
+                        <input class="form-control me-2 bg-secondary" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-secondary" type="submit">Search</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -113,7 +123,6 @@
 
 
         <script src="./Assets/js/bootstrap.bundle.min.js"></script>
-        <script src="/modules/weather.js"></script>
 
         <script type="module">
 
@@ -138,5 +147,6 @@
 
 
         </script>
+        <script src="/modules/weather.js"></script>
 </body>
 </html>

@@ -48,6 +48,7 @@
                 <select name="filter" id="filter" class="form-control">
                     <option value="asc" selected>Asc</option>
                     <option value="desc">Desc</option>
+                    <option value="liked">Most Liked</option>
                 </select>
             </form>
         </div>
@@ -96,24 +97,8 @@
             import {getPosts, getTopPosts} from './modules/Posts.js'
 
             const posts_div = document.getElementById('posts')
-            
-            // getPosts(posts_div, {limit: null, sort: 'asc'})
+            getPosts(posts_div, {limit: 50})
 
-            // document.querySelector('select').addEventListener('load', (e) =>{
-            //     getPosts(posts_div, {limit: null, sort: null})
-            // })
-            // document.querySelector('select').addEventListener('change', (e) => {
-            //     getPosts(posts_div, {limit: null, sort: e.target.value})
-            // })            
-            
-            getPosts(posts_div, {limit: null})
-
-            // document.querySelector('select').addEventListener('load', (e) =>{
-            //     getPosts(posts_div, {limit: null}, {sort: null})
-            // })
-            // document.querySelector('select').addEventListener('change', (e) => {
-            //     getPosts(posts_div, {limit: null}, {sort: e.target.value})
-            // }) 
             
         </script>
 </body>
