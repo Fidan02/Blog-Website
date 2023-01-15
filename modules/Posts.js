@@ -2,7 +2,7 @@
 //Composing to HTML format
 function composePostsHTML(postimet){
     let result = ''
-
+    
     for(let i = 0; i < postimet.posts.length; i++){
         result += `
             <div class="col-xl-12 col-lg-12 col-md-6 col-sm-12 mb-3">
@@ -18,11 +18,11 @@ function composePostsHTML(postimet){
                             ${postimet.posts[i].body.substring(0, 200)} 
                             <a href="#" class="text-decoration-none text-dark">...</a>
                         </p>
-                        <span class="badge">
-                                <button class="btn btn-outline-primary" id="like_btn" >
-                                    👍: ${postimet.posts[i].reactions}
-                                </button>
-                        </span>
+                        
+                        <button id="like" class="btn btn-outline-primary">
+                        👍: <span id="increase">${postimet.posts[i].reactions}</span>
+                        </button>
+                        
                     </div>
                 </div>
             </div>
@@ -35,36 +35,42 @@ function composePostsHTML(postimet){
 function composePostMainHTML(postimet){
     let result = ''
     
-    for(let i = 0; i < postimet.posts.length; i++){
-        if(postimet.posts[i].reactions > 7){
+    const newData = postimet.posts.sort((a, b) => {
+        return a.reactions - b.reactions
+    }).reverse().slice(0, 4)
+
+
+    for(let i = 0; i < newData.length; i++){
             result += `
-            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
-                <div class="card h-100">
-                    <div class="card-body rounded">
-                        <h5 class="card-title"><a href="post.html?id=${postimet.posts[i].id}" class="text-decoration-none text-dark">${postimet.posts[i].title}</a></h5>
-                        <h6 class="card-subtitle mb-2 pb-1 border-bottom border-dark text-muted">User: ${postimet.posts[i].userId}</h6>
-                        <div mt-2">
-                            <span class="badge bg-danger">TAGS: ${postimet.posts[i].tags}</span>
-                        </div>
-                            <br>
-                        <p class="card-text description text-secondary p-2 mt-3 ">
-                            ${postimet.posts[i].body.substring(0, 200)} 
-                            <a href="#" class="text-decoration-none text-dark">...</a>
-                        </p>
-                        <span class="badge">
-                                <button class="btn btn-outline-primary">
-                                    👍: <span id="like_btn">${postimet.posts[i].reactions}</span>
+                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body rounded">
+                            <h5 class="card-title"><a href="post.html?id=${newData[i].id}" class="text-decoration-none text-dark">${newData[i].title}</a></h5>
+                            <h6 class="card-subtitle mb-2 pb-1 border-bottom border-dark text-muted">User: ${newData[i].userId}</h6>
+                            <div mt-2">
+                                <span class="badge bg-danger">TAGS: ${newData[i].tags}</span>
+                            </div>
+                                <br>
+                            <p class="card-text description text-secondary p-2 mt-3 ">
+                                ${newData[i].body.substring(0, 200)} 
+                                <a href="#" class="text-decoration-none text-dark">...</a>
+                            </p>
+                            <span>
+                                <button id="like" class="btn btn-outline-primary">
+                                    👍: <span id="increase">${newData[i].reactions}</span>
                                 </button>
                             </span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        `
-        }
+            `
+        
     }
         return result;
     
 }
+
+
 function composePostHTML(postimet){
     let result = ''
 
@@ -81,7 +87,7 @@ function composePostHTML(postimet){
                                 ${postimet.body} 
                             </p>
                             <div class="mt-2 d-flex justify-content-between ">
-                                <span class="badge p-2 fs-6 bg-danger text-wrap">TAGS: ${postimet.tags}</span>
+                                <span class="badge p-2 fs-md-6 bg-danger text-wrap">TAGS: ${postimet.tags}</span>
                                 <button class="btn btn-outline-primary text-wrap p-2" id="like_btn" >
                                     👍: ${postimet.reactions}
                                 </button>
@@ -94,8 +100,20 @@ function composePostHTML(postimet){
     
     return result;
 }
+function composeComments(comment){
+    let result = '';
 
+    for(let i = 0; i<comment.comments.length; i++){
+        result += `
+            <div class="commentBox border border-secondary rounded m-2 pt-3 col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <p class="commentUserId rounded fw-bold" >${comment.comments[i].user.username}:</p>
+                <p class="commentBodyId fst-italic">${comment.comments[i].body}</p>
+            </div>
+        `
+    }
 
+    return result;
+}
 function composeQuote(quote){
     let result = ''
 
@@ -123,16 +141,28 @@ function composeApiUrl(options){
 
 
 //Sorting system
-function sort(sorted, div){
+function sortSystem(sorted, div){
     document.querySelector('select').addEventListener('change', (e) => {
         if(e.target.value === 'asc'){
-            sorted.posts.reverse()
+            sorted.posts.sort((a, b) => {
+                return a.id - b.id
+            })
             div.innerHTML = composePostsHTML(sorted);
         } else if (e.target.value === 'desc'){
-            sorted.posts.reverse()
+            sorted.posts.sort((a, b) => {
+                return a.id - b.id
+            }).reverse()
             div.innerHTML = composePostsHTML(sorted);
         } else if (e.target.value === 'liked'){
-            div.innerHTML = composePostMainHTML(sorted);
+            sorted.posts.sort((a, b) => {
+                return a.reactions - b.reactions
+            }).reverse()
+            div.innerHTML = composePostsHTML(sorted);
+        } else {
+            sorted.posts.sort((a, b) => {
+                return a.reactions - b.reactions
+            })
+            div.innerHTML = composePostsHTML(sorted);
         }
     })
     return sorted.posts
@@ -141,7 +171,33 @@ function sort(sorted, div){
 
 
 
+function addLike(){
+    const increase = document.querySelector('#increase')
+    const getLike = document.querySelectorAll('#like')
+    
+    let numberOfLikes = Number.parseInt(increase.textContent, 10);
+    let isLiked = false;
 
+    const likeClick = () => {
+        if(!isLiked){
+            numberOfLikes++
+            increase.textContent = numberOfLikes
+            isLiked = !isLiked
+        } else {
+            numberOfLikes--
+            increase.textContent = numberOfLikes
+            isLiked = !isLiked
+        }
+    }
+    // increase.forEach(inc => inc.addEventListener('click', () => {
+    //     likeClick()
+    // }))
+    getLike.forEach(like => like.addEventListener('click', () => {
+        likeClick()
+    }))
+
+    
+}
 
 
 //Exported Functions
@@ -151,15 +207,17 @@ export function getPosts(div, options) {
             .then(data => {{
                 
                 div.innerHTML = composePostsHTML(data);
-                sort(data, div)
+                sortSystem(data, div)
+                addLike(data)
     }})
 }
 
 export function getTopPosts(div, options){
     fetch(composeApiUrl(options))
             .then(res =>res.json())
-            .then(test => {{
-                div.innerHTML = composePostMainHTML(test);
+            .then(data => {{
+                div.innerHTML = composePostMainHTML(data);
+                addLike(data)
     }})
 }
 
@@ -171,10 +229,32 @@ export function getQuote(div){
     }})
 }
 
-export default function getSinglePost(div, id){
+export function getSinglePost(div, id){
     fetch(`https://dummyjson.com/posts/${id}`)
     .then(res => res.json())
     .then(singlePost => {
         div.innerHTML = composePostHTML(singlePost)
+    })
+}
+
+export function getComments(div, id){
+    fetch(`https://dummyjson.com/posts/${id}/comments`)
+    .then(res => res.json())
+    .then(comments => {
+        div.innerHTML = composeComments(comments);
+    })
+
+}
+
+
+
+
+
+
+export function searchPost(div, value){
+    fetch(`https://dummyjson.com/posts/search?q=${value}`)
+    .then(res => res.json())
+    .then(searchData => {
+        div.innerHTML = composePostsHTML(searchData);
     })
 }

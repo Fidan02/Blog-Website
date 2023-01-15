@@ -13,3 +13,12 @@ a{
     height: 48px;
     overflow: hidden;
 }
+
+.commentUserId{
+    background-color: rgba(207, 207, 207, 0.785);
+    padding: 5px;
+    width: 20%;
+}
+/* .commentBox{
+    background-color: rgba(62, 62, 62, 0.455);
+} */

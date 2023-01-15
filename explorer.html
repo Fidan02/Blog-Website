@@ -34,8 +34,7 @@
                 </li>
             </ul>
             <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-danger" type="submit">Search</button>
+                <input class="form-control me-2" id="search" type="search" placeholder="Search" aria-label="Search">
             </form>
             </div>
         </div>
@@ -49,6 +48,7 @@
                     <option value="asc" selected>Asc</option>
                     <option value="desc">Desc</option>
                     <option value="liked">Most Liked</option>
+                    <option value="less">Least Liked</option>
                 </select>
             </form>
         </div>
@@ -94,11 +94,21 @@
 
         <script type="module">
 
-            import {getPosts, getTopPosts} from './modules/Posts.js'
-
+            import {getPosts, getTopPosts, searchPost} from './modules/Posts.js'
+            import { getPostFromUrl } from './modules/Helper.js'
             const posts_div = document.getElementById('posts')
-            getPosts(posts_div, {limit: 50})
 
+            getPosts(posts_div, {limit: 50})
+            document.querySelector('#search').addEventListener("input", e => {
+                e.preventDefault();
+                const value = e.target.value;
+                
+                if(value !== null){
+                    return searchPost(posts_div, value)
+                } else{
+                    return getPosts(posts_div, {limit: null})
+                }
+            })
             
         </script>
 </body>
