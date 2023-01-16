@@ -172,31 +172,30 @@ function sortSystem(sorted, div){
 
 
 function addLike(){
-    const increase = document.querySelector('#increase')
+    const increase = document.querySelectorAll('#increase')
     const getLike = document.querySelectorAll('#like')
-    
-    let numberOfLikes = Number.parseInt(increase.textContent, 10);
+
     let isLiked = false;
-
-    const likeClick = () => {
-        if(!isLiked){
-            numberOfLikes++
-            increase.textContent = numberOfLikes
-            isLiked = !isLiked
-        } else {
-            numberOfLikes--
-            increase.textContent = numberOfLikes
-            isLiked = !isLiked
-        }
-    }
-    // increase.forEach(inc => inc.addEventListener('click', () => {
-    //     likeClick()
-    // }))
-    getLike.forEach(like => like.addEventListener('click', () => {
-        likeClick()
+    increase.forEach(increase => increase.addEventListener('click', e => {
+        
+        let numberOfLikes = Number.parseInt(increase.innerText, 10);
+            if(!isLiked){
+                
+                ++numberOfLikes
+                increase.innerText = numberOfLikes
+                return isLiked = true
+            }else{
+                --numberOfLikes
+                increase.innerText = numberOfLikes
+                return isLiked = false
+            }
+            
     }))
-
     
+    //Neser me kqyr!
+        // getLike.forEach(like => like.addEventListener('click', () => {
+
+        // }))
 }
 
 
