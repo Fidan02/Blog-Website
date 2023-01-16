@@ -19,9 +19,11 @@ function composePostsHTML(postimet){
                             <a href="#" class="text-decoration-none text-dark">...</a>
                         </p>
                         
-                        <button id="like" class="btn btn-outline-primary">
-                        👍: <span id="increase">${postimet.posts[i].reactions}</span>
-                        </button>
+                        <span>
+                            <button id="like" class="btn btn-outline-primary">
+                            👍: <span id="increase">${postimet.posts[i].reactions}</span>
+                            </button>
+                        </span>
                         
                     </div>
                 </div>
@@ -38,8 +40,7 @@ function composePostMainHTML(postimet){
     const newData = postimet.posts.sort((a, b) => {
         return a.reactions - b.reactions
     }).reverse().slice(0, 4)
-
-
+    
     for(let i = 0; i < newData.length; i++){
             result += `
                 <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 mb-3">
@@ -57,7 +58,7 @@ function composePostMainHTML(postimet){
                             </p>
                             <span>
                                 <button id="like" class="btn btn-outline-primary">
-                                    👍: <span id="increase">${newData[i].reactions}</span>
+                                    👍:<span id="increase">${newData[i].reactions}</span> 
                                 </button>
                             </span>
                         </div>
@@ -173,29 +174,30 @@ function sortSystem(sorted, div){
 
 function addLike(){
     const increase = document.querySelectorAll('#increase')
-    const getLike = document.querySelectorAll('#like')
+    
 
     let isLiked = false;
     increase.forEach(increase => increase.addEventListener('click', e => {
         
         let numberOfLikes = Number.parseInt(increase.innerText, 10);
             if(!isLiked){
-                
-                ++numberOfLikes
+                numberOfLikes++
                 increase.innerText = numberOfLikes
-                return isLiked = true
+                isLiked = !isLiked
             }else{
-                --numberOfLikes
+                numberOfLikes--
                 increase.innerText = numberOfLikes
-                return isLiked = false
+                isLiked = !isLiked
             }
             
     }))
     
     //Neser me kqyr!
-        // getLike.forEach(like => like.addEventListener('click', () => {
+    //const getLike = document.querySelectorAll('#like')        
+    // getLike.forEach(like => like.addEventListener('click', () => {
 
-        // }))
+    // }))
+        
 }
 
 
@@ -207,7 +209,7 @@ export function getPosts(div, options) {
                 
                 div.innerHTML = composePostsHTML(data);
                 sortSystem(data, div)
-                addLike(data)
+                addLike()
     }})
 }
 
@@ -216,7 +218,7 @@ export function getTopPosts(div, options){
             .then(res =>res.json())
             .then(data => {{
                 div.innerHTML = composePostMainHTML(data);
-                addLike(data)
+                addLike()
     }})
 }
 
@@ -244,12 +246,6 @@ export function getComments(div, id){
     })
 
 }
-
-
-
-
-
-
 export function searchPost(div, value){
     fetch(`https://dummyjson.com/posts/search?q=${value}`)
     .then(res => res.json())

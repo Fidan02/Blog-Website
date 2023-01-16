@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./Assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="./Assets/css/style.css">
-    <title>Blog | Post</title>
+    <title>Blog | Sign-up</title>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -18,7 +18,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="/index.html">Main</a>
+                <a class="nav-link active" aria-current="page" href="/index.html">Main</a>
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href="./explorer.html">Explore</a>
@@ -38,27 +38,30 @@
         </div>
         </nav>
 
-    <section class="filters py-5">
-        <div class="container pb-2 d-md-flex flex-column justify-content-md-between">
-            <div class="container mb-5" id="post">
-                
-            </div>
-            <div class="p-2">
-                <h3 class="border-bottom border-danger">Comments</h3>
-                <div>
-                    <div class="post-comment d-flex mt-2">
-                        <input type="text" class="form-control" id="postComment" placeholder="Post a comment">
-                        <button class="btn btn-outline-primary">Post</button>
-                    </div>
 
-                    <div class="row mt-3" id="comments">
-                        
-                        
-                    </div>
+    <section id="info">
+        <div class="container mb-5">
+            <div class="mt-4">
+                <h3>Log-In</h3>
+                <hr>
+            </div>
+            <div class="row" id="login">
+                <div class="col-xl-6 offset-xl-3 col-lg-6 offset-lg-3 col-md-6 offset-md-3 col-sm-12 offset-sm-0">
+                    <form action="#" id="login_form">
+                        <div class="form-group mb-3">
+                            <label for="email">E-mail</label>
+                            <input type="email" name="email" class="form-control" id="email" placeholder="Email" required>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" class="form-control" id="password"  pattern="[a-zA-Z0-9]{6,}" placeholder="Password" required>
+                        </div>
+                        <button type="submit" class="btn btn-md btn-outline-dark">Login</button>
+                        <a href="./signup.html" class="btn btn-md btn-outline-link">Register</a>
+                    </form>
                 </div>
             </div>
         </div>
-        
     </section>
 
 
@@ -68,7 +71,7 @@
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                     <h2 class="text-light">BlogSpot</h2>
                 </div>
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 d-md-flex justify-content-md-center">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 d-md-flex justify-content-md-end">
                     <ul class="nav">
                         <li class="nav-item"><a class="text-light" href="index.html">Home</a></li>
                         <li class="nav-item mx-4"><a class="text-light" href="explorer.html">Explore</a></li>
@@ -92,25 +95,26 @@
         <script src="./Assets/js/bootstrap.bundle.min.js"></script>
 
         <script type="module">
+            import { login } from './modules/Auth.js';
+            const login_form = document.querySelector('#login_form')
+            login_form.addEventListener('submit', e => {
+                e.preventDefault()
 
-            import { getSinglePost, getComments } from './modules/Posts.js'
-            import { getPostFromUrl } from './modules/Helper.js'
-            
-            const id = getPostFromUrl(document.URL, 'id')
-            const post_div = document.getElementById('post')
-            const comment_div = document.getElementById('comments');
+                const form = e.target.elements
+                
+                const data = {
+                    'email': form['email'].value,
+                    'password': form['password'].value
+                }
 
-
-            if(id !== null){
-                getSinglePost(post_div, id)
-                getComments(comment_div, id);
-            } else{
-                post_div.innerHTML = 'Page not found';
-                comment_div.innerHTML = ' '
-            }
-
-            
-
+                if(login(data)){
+                    localStorage.setItem('email', form['email'].value)
+                    localStorage.setItem('is_loggedin', 1)
+                    window.location.href = 'index.html'
+                }else {
+                    alert('Incorrect Information!')
+                }
+            })
         </script>
 </body>
 </html>
