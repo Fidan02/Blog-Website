@@ -192,7 +192,7 @@ function addLike(){
             
     }))
     
-    //Neser me kqyr!
+    //Me gjet menyre me ndreq!!!!!
     //const getLike = document.querySelectorAll('#like')        
     // getLike.forEach(like => like.addEventListener('click', () => {
 
